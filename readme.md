@@ -77,6 +77,7 @@ Email: SMTP (configurable)
 Captcha: reCAPTCHA v2
 
 📁 Estructura del Proyecto
+
 SiGI/
 ├── docker/ # Configuración Docker (solo desarrollo)
 │ ├── Dockerfile # Imagen PHP 7.3 + Apache
