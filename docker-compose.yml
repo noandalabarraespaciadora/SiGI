@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: inscripciones_app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html/inscripciones
+      - ./logs/apache:/var/log/apache2
+      - ./logs/php:/var/log/php
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/inscripciones
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:5.7
+    container_name: inscripciones_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: inscripcionesdb
+      MYSQL_USER: admindb
+      MYSQL_PASSWORD: admindb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - "8081:80"
+
+volumes:
+  mysql_data:
